@@ -36,3 +36,4 @@ Event showing EEG data.
 ## start 
 
 Gets triggered when the Mindwave is started and ready to be used.
+
