@@ -16,7 +16,7 @@ const CODE_ASIC_EEG byte = 0x83       // ASIC EEG POWER 8 3-byte big-endian inte
 
 type NeuroskyDriver struct {
 	gobot.Driver
-	NeuroskyAdaptor *NeuroskyAdaptor
+	Adaptor *NeuroskyAdaptor
 }
 
 type NeuroskyInterface interface {
@@ -43,7 +43,7 @@ func NewNeurosky(adaptor *NeuroskyAdaptor) *NeuroskyDriver {
 	d.Events["Blink"] = make(chan interface{})
 	d.Events["Wave"] = make(chan interface{})
 	d.Events["EEG"] = make(chan interface{})
-	d.NeuroskyAdaptor = adaptor
+	d.Adaptor = adaptor
 	d.Commands = []string{}
 	return d
 }
@@ -53,7 +53,7 @@ func (me *NeuroskyDriver) Start() bool {
 	go func() {
 		for {
 			var buff = make([]byte, int(2048))
-			_, err := me.NeuroskyAdaptor.sp.Read(buff[:])
+			_, err := me.Adaptor.sp.Read(buff[:])
 			if err != nil {
 				panic(err)
 			} else {
